@@ -1,21 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StatusBar as ExpoStatusBar } from "expo-status-bar";
+import { RestaurantScreen } from "./src/screens/RestaurantScreen";
+import { ThemeProvider } from "styled-components";
+import { theme } from "./src/infrastructure/theme";
+import {
+  useFonts as useOswald,
+  Oswald_400Regular,
+} from "@expo-google-fonts/oswald";
+import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 
 export default function App() {
+  const [oswaldLoaded] = useOswald({
+    Oswald_400Regular,
+  });
+
+  const [latoLoaded] = useLato({
+    Lato_400Regular,
+  });
+
+  if (!oswaldLoaded || !latoLoaded) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <ExpoStatusBar style="auto" />
+      <ThemeProvider theme={theme}>
+        <RestaurantScreen />
+      </ThemeProvider>
+    </>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// Packages installed:
+
+// In this App the Google fonts pakage is installed with the Expo install CLI giving access to 991+ fonts.
+// The commands are:
+// expo install expo-font
+// Then to install specific fonts the command is:
+// expo install @expo-google-fonts/oswald
+// expo install @expo-google-fonts/lato
+
+// expo install react-native-svg
